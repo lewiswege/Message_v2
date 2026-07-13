@@ -1,0 +1,22 @@
+created:
+    - database/factories/CustomerFactory.php
+    - database/factories/CustomerChannelIdentifierFactory.php
+    - database/factories/ConversationFactory.php
+    - database/factories/MessageFactory.php
+    - database/factories/MessageAttachmentFactory.php
+    - database/migrations/2026_07_08_114814_create_customers_table.php
+    - database/migrations/2026_07_08_114815_create_customer_channel_identifiers_table.php
+    - database/migrations/2026_07_08_114816_create_conversations_table.php
+    - database/migrations/2026_07_08_114817_create_messages_table.php
+    - database/migrations/2026_07_08_114818_create_message_attachments_table.php
+    - app/Models/Customer.php
+    - app/Models/CustomerChannelIdentifier.php
+    - app/Models/Conversation.php
+    - app/Models/Message.php
+    - app/Models/MessageAttachment.php
+models:
+    Customer: { id: ulid, name: 'string nullable', email: 'string nullable', metadata: 'json nullable', softdeletes: softDeletes, timestamps: timestamps }
+    CustomerChannelIdentifier: { customer_id: foreign, channel: string, provider: string, identifier: string, verified_at: 'timestamp nullable', metadata: 'json nullable', timestamps: timestamps }
+    Conversation: { id: ulid, customer_id: foreign, status: string, assigned_agent_id: 'foreign nullable', last_message_at: 'timestamp nullable', last_inbound_channel: 'string nullable', unread_count: 'unsignedInteger default:0', resolved_at: 'timestamp nullable', timestamps: timestamps }
+    Message: { id: ulid, conversation_id: foreign, direction: string, channel: string, provider: string, channel_message_id: 'string nullable', reply_to_message_id: 'foreign nullable', content_type: string, content: 'longText nullable', metadata: 'json nullable', status: string, status_updated_at: 'timestamp nullable', failure_reason: 'text nullable', sent_by_agent_id: 'foreign nullable', timestamps: timestamps }
+    MessageAttachment: { message_id: foreign, type: string, file_path: string, file_name: string, file_size: unsignedBigInteger, mime_type: string, timestamps: timestamps }

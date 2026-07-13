@@ -1,0 +1,55 @@
+models:
+
+  Customer:
+    id: ulid
+    name: string nullable
+    email: string nullable
+    metadata: json nullable
+    softDeletes
+    timestamps
+
+  CustomerChannelIdentifier:
+    customer_id: foreign
+    channel: string
+    provider: string
+    identifier: string
+    verified_at: timestamp nullable
+    metadata: json nullable
+    timestamps
+
+  Conversation:
+    id: ulid
+    customer_id: foreign
+    status: string
+    assigned_agent_id: foreign nullable
+    last_message_at: timestamp nullable
+    last_inbound_channel: string nullable
+    unread_count: unsignedInteger default:0
+    resolved_at: timestamp nullable
+    timestamps
+
+  Message:
+    id: ulid
+    conversation_id: foreign
+    direction: string
+    channel: string
+    provider: string
+    channel_message_id: string nullable
+    reply_to_message_id: foreign nullable
+    content_type: string
+    content: longText nullable
+    metadata: json nullable
+    status: string
+    status_updated_at: timestamp nullable
+    failure_reason: text nullable
+    sent_by_agent_id: foreign nullable
+    timestamps
+
+  MessageAttachment:
+    message_id: foreign
+    type: string
+    file_path: string
+    file_name: string
+    file_size: unsignedBigInteger
+    mime_type: string
+    timestamps
